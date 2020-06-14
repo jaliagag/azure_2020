@@ -79,6 +79,8 @@ Remote Desktop (RDP) provides remote connectivity to the UI of Windows-based com
 
 ## CLI
 
+<https://docs.microsoft.com/cli/azure/reference-index?view=azure-cli-latest>
+
 |Sub-command |Description |
 | ----------- | ----------- |
 | create |Create a new virtual machine |
@@ -91,4 +93,88 @@ Remote Desktop (RDP) provides remote connectivity to the UI of Windows-based com
 |start| Start a stopped virtual machine|
 |stop| Stop a running virtual machine|
 |update| Update a property of a virtual machine|
+
+Let's start with the first one: `az vm create`. This command is used to create a virtual machine in a resource group. There are several parameters you can pass to configure all the aspects of the new VM. The four parameters that must be supplied are:
+
+|Parameter|Description|
+| ----------- | ----------- |
+|--resource-group|The resource group that will own the virtual machine, use learn-fbb47511-a087-4eed-bc92-98ff9dcc5c0c.|
+|--name|The name of the virtual machine - must be unique within the resource group.|
+|--image|The operating system image to use to create the VM.|
+|--location|The region to place the VM in. Typically this would be close to the consumer of the VM. In this exercise, choose a location nearby from the following list.|
+
+In addition, it's helpful to add the `--verbose` flag to see progress while the VM is being created.
+
+You can add the `--no-wait` option to tell the Azure CLI tool to return immediately and have Azure continue creating the VM in the background.
+
+## VM Sizes
+
+|Type|Sizes|Description|
+| ----------- | ----------- |----------- |
+|General purpose|Dsv3, Dv3, DSv2, Dv2, DS, D, Av2, A0-7|Balanced CPU-to-memory. Ideal for dev/test and small to medium applications and data solutions.|
+|Compute optimized|Fs, F|High CPU-to-memory. Good for medium-traffic applications, network appliances, and batch processes.|
+|Memory optimized|Esv3, Ev3, M, GS, G, DSv2, DS, Dv2, D|High memory-to-core. Great for relational databases, medium to large caches, and in-memory analytics.|
+|Storage optimized|Ls|High disk throughput and IO. Ideal for big data, SQL, and NoSQL databases.|
+|GPU optimized|NV, NC|Specialized VMs targeted for heavy graphic rendering and video editing.|
+|High performance|H, A8-11|Our most powerful CPU VMs with optional high-throughput network interfaces (RDMA).|
+
+```Azure CLI
+az vm create \
+    --resource-group learn-fbb47511-a087-4eed-bc92-98ff9dcc5c0c \
+    --name SampleVM2 \
+    --image UbuntuLTS \
+    --admin-username azureuser \
+    --generate-ssh-keys \
+    --verbose \
+    --size "Standard_DS5_v2"
+```
+
+If the size we want isn't available in our cluster, but is available in the region, we can **deallocate the VM**. This command will stop the running VM and remove it from the current cluster without losing any resources. Then we can resize it, which will re-create the VM in a new cluster where the size configuration is available.
+
+### JMESPath
+
+<http://jmespath.org/>; 
+<http://jmespath.org/tutorial.html>
+
+JMESPath is an industry-standard query language built around JSON objects. The simplest query is to specify an identifier that selects a key in the JSON object.
+
+```JSON
+{
+  "people": [
+    {
+      "name": "Fred",
+      "age": 28
+    },
+    {
+      "name": "Barney",
+      "age": 25
+    },
+    {
+      "name": "Wilma",
+      "age": 27
+    }
+  ]
+}
+```
+
+`people[?age > '25'].[name]`
+
+```JSON
+[
+  [
+    "Fred"
+  ],
+  [
+    "Wilma"
+  ]
+]
+```
+
+-----------------------------------
+
+The **Update Management** solution allows you to manage and install operating system updates and patches for both Windows and Linux virtual machines that are deployed in Azure, on-premises, or even in other cloud providers. You can assess the status of available updates on computers and manage the process of installing required updates for servers.
+
+1. There are no agents or additional configuration within the virtual machine.
+2. You can run updates without logging into the VM. You also don't have to create passwords to install the update.
+3. The Update Management solution lists missing updates and provides information about failed deployments in an easy-to-read format.
 

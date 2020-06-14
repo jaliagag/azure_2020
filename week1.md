@@ -148,7 +148,7 @@ Costs: go into the subscriptions > **lost analysis**, see where. Cost management
 
 Log analytics: log workspace for log analytics. Storage account of containers to store the logs. Similar to splunk. It allows to `run queries`. Alerts can be set with a query. **Data sources --> select azure resources**.
 
-Resource Groups: organizational structure. Resources are into the rg. Name has to be unique within the region. 
+Resource Groups: organizational structure. Resources are into the rg. Name has to be unique within the region.
 
 Locks on resources to make change or delete:
 
@@ -178,9 +178,9 @@ az provider register --namespace Microsoft.Compute
 
 Storage: Premium SSD, Strandard HDD
 
-- Blob Storage: 
+- Blob Storage:
   - can be public
-- General purpose: 
+- General purpose:
 
 Replication:
 
@@ -193,7 +193,7 @@ Access tier:
 - Hot: inmediatelly available, lowest latency time in retrieving
 - Cool: cheaper to store long terms, expense in retrieval and latency
 
-Virtual networks (service end point): 
+Virtual networks (service end point):
 
 - by default it is generally accessible (**All networks**); you get a publicly accessible URL and as long as you have the access keys you'll be able to read or write. Secure Access Signatures (SAS) to give limited access to people.
 - Only **Selected networks**: turns off All networks; public access. Even if you have SAS, if you are not within a specific network, you won't be able to access the contents of the storage account. This option is more secure.
