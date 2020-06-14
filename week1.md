@@ -103,3 +103,122 @@ Policies are useful to fulfill standards. AZ **policy** service. We can define t
 - Auditting: copliance issue; if the policy is not met, alert
 - not allowing
 - enforments: tags, OS upgrades, password complexity...
+
+## Day 2
+
+Diagnostics can be done at the **resource group lvl**.
+
+Azure monitor: all monitor activities en Az. Central monitor for diagnostics.
+
+- Diagnostics settings shows all active monitors. Diagnostic for VMs --> if you don't enable diagnostics, you won't get any; you **do** need a **storage account** (additional costs) de 5GB.
+
+VM > Diagnostic settings > Agents (these agents _CAN_ be deinstalled)
+
+Performance counters: every 60" by default; it is customizable.
+
+- Logs = windows event logs
+- Crash dumps: disabled by default
+
+**Baseline** for resources: recovering method besides VM bakcup. Resources stored as pwsh/cli script or ARM template (in GitHub, for instance). Modify the template and _redeploy_ the template.
+
+RG > top right **Deployments** > click deployment options > to the right
+
+Always save two files:
+
+1. template
+2. also store the parameters
+
+This can be added to the library > name > description
+
+Automatic script > generales current state of the resource.
+
+All services > templates saved
+
+Alerts and metrics: rg > alert (add criteria) > new alert rule
+
+1. define alert condition
+2. define alert details
+3. define action group
+
+Metrics menu is bellow alerts. Add chart / add metric. Reports on the fly; reports to be permanent need to add them to a dashboard. Different resources can have different events that can be measured.
+
+Action groups: alerts > manage action groups. Multiple actions accur when that occurs: function (how to create a function call, automations that happen), webhook (facebook), ITSM...
+
+Costs: go into the subscriptions > **lost analysis**, see where. Cost management + billing --> orgnatization lvl reporting.
+
+Log analytics: log workspace for log analytics. Storage account of containers to store the logs. Similar to splunk. It allows to `run queries`. Alerts can be set with a query. **Data sources --> select azure resources**.
+
+Resource Groups: organizational structure. Resources are into the rg. Name has to be unique within the region. 
+
+Locks on resources to make change or delete:
+
+- read-only
+- delete
+
+rg policy: rg is a scope - assignments > assign. Restrictions at the rg lvl, from wihing the RG.
+
+Moving resources to:
+
+- another rg
+- another subscription
+
+Moving managed disks needs to be registered as a provider for that feature:
+
+```ps1
+az feature register --namespace Microsoft.compute --ManagedResourcesMove
+
+# show status of registering process
+
+az feature show --namespace Microsoft.compute --ManagedResourcesMove
+
+# Re-register compute service (recommended)
+
+az provider register --namespace Microsoft.Compute
+```
+
+Storage: Premium SSD, Strandard HDD
+
+- Blob Storage: 
+  - can be public
+- General purpose: 
+
+Replication:
+
+- ZRS (Zonally Redundant Storage)
+- LRS (locally): your data + 2 additional copies within the region. Takes advantage of availability zones.
+- GRS (globally): LRS + 3 additional copies in other regions of the world.
+
+Access tier:
+
+- Hot: inmediatelly available, lowest latency time in retrieving
+- Cool: cheaper to store long terms, expense in retrieval and latency
+
+Virtual networks (service end point): 
+
+- by default it is generally accessible (**All networks**); you get a publicly accessible URL and as long as you have the access keys you'll be able to read or write. Secure Access Signatures (SAS) to give limited access to people.
+- Only **Selected networks**: turns off All networks; public access. Even if you have SAS, if you are not within a specific network, you won't be able to access the contents of the storage account. This option is more secure.
+
+Within the storage account > Firewall and virtual networks (prevent access to public internet): change settings All networks <--> selected networks.
+
+- IP firewall: we can add IP ranges
+- Exceptions: store stuff for logging purposes, log analytics...
+
+How to create a file share: <https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-create-file-share?tabs=azure-portal>
+
+troubleshott file sync: <https://docs.microsoft.com/en-us/azure/storage/files/storage-sync-files-troubleshoot?tabs=portal1%2Cazure-portal>
+
+## Day 3
+
+Turn off execution policies:
+
+```ps1
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+# Make deployment by running "deploy.ps1" file
+
+./deploy.ps1 -subscriptionId <subscription Id> -resourceGroupName <it's going to be created if it doesn't exist> -deploymentName <XXX>
+```
+
+<https://github.com/olohmann/azure-hands-on-labs>
+<https://github.com/MicrosoftLearning/AZ-104-MicrosoftAzureAdministrator>
+<https://github.com/MicrosoftLearning/AZ-103-MicrosoftAzureAdministrator>
