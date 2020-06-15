@@ -14,4 +14,5 @@
 - Storage Explorer: <https://docs.microsoft.com/en-us/azure/storage/common/storage-dotnet-shared-access-signature-part-1> <https://docs.microsoft.com/en-us/azure/vs-azure-tools-storage-manage-with-storage-explorer?tabs=windows>
 - Storage account: <https://docs.microsoft.com/en-us/azure/storage/common/storage-account-options> <https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal>
 - File share: <https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-create-file-share>
-- 
+
+
