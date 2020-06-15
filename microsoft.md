@@ -178,3 +178,24 @@ The **Update Management** solution allows you to manage and install operating sy
 2. You can run updates without logging into the VM. You also don't have to create passwords to install the update.
 3. The Update Management solution lists missing updates and provides information about failed deployments in an easy-to-read format.
 
+![img02](02.png)
+
+A compliance scan is by default, performed every 12 hours on a Windows computer and every 3 hours on a Linux computer. In addition to the scan schedule, a compliance scan is initiated within 15 minutes if the MMA is restarted, before update installation, and after update installation. After a computer performs a scan for update compliance, the agent forwards the information in bulk to Azure Log Analytics.
+
+It can take between 30 minutes and 6 hours for the dashboard to display updated data from managed computers.
+
+---
+
+Azure virtual networks enable Azure resources, such as virtual machines, web apps, and databases, to communicate with: each other, users on the Internet, and on-premises client computers. You can think of an Azure network as a set of resources that links other Azure resources.
+
+#### Point-to-site Virtual Private Networks
+
+This approach is like a Virtual Private Network (VPN) connection that a computer outside your organization makes back into your corporate network, except that it's working in the opposite direction. In this case, the client computer initiates an encrypted VPN connection to Azure, connecting that computer to the Azure virtual network.
+
+#### Site-to-site Virtual Private Networks
+
+A site-to-site VPN links your on-premises VPN device or gateway to the Azure VPN gateway in a virtual network. In effect, the devices in Azure can appear as being on the local network. The connection is encrypted and works over the Internet.
+
+#### Azure ExpressRoute
+
+For environments where you need greater bandwidth and even higher levels of security, Azure ExpressRoute is the best approach. Azure ExpressRoute provides dedicated private connectivity to Azure that does not travel over the Internet.
