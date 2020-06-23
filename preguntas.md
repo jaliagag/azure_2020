@@ -34,3 +34,12 @@
 | [Multiple front ends](./load-balancer-multivip-overview.md) | Inbound and [outbound](./load-balancer-outbound-connections.md) | Inbound only |
 | Management Operations | Most operations < 30 seconds | 60-90+ seconds typical |
 | SLA | [99.99%](https://azure.microsoft.com/support/legal/sla/load-balancer/v1_0/) | Not available | 
+
+## Link whizlabs 2
+
+- <https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-howto-site-to-site-resource-manager-portal>
+- <https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/dsc-overview>
+- <https://docs.microsoft.com/en-us/azure/storage/files/storage-sync-cloud-tiering>
+- <https://docs.microsoft.com/en-us/azure/active-directory/hybrid/plan-connect-userprincipalname>
+- <https://docs.microsoft.com/en-us/azure/governance/policy/overview>
+- <https://docs.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-health-agent-install>
