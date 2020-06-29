@@ -43,3 +43,119 @@
 - <https://docs.microsoft.com/en-us/azure/active-directory/hybrid/plan-connect-userprincipalname>
 - <https://docs.microsoft.com/en-us/azure/governance/policy/overview>
 - <https://docs.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-health-agent-install>
+
+## ARM
+
+A Resource Manager template is a JSON file, making it a form of declarative automation. Declarative automation means that you define what resources you need but not how to create them. Put another way, you define what you need and it is Resource Manager's responsibility to ensure that resources are deployed correctly.
+
+## Practice
+
+### Deploy a VM using an Azure Quickstart template
+
+```cli
+list subscription: az account list --output table
+set subscription: az account set --subscription e724faf3-5a4b-42ce-812f-9454ffc0577dH
+set variable: RESOURCEGROUP=learn-quickstart-vm-rg
+set variable: LOCATION=brazilsouth
+create a resource group: az group create --name $RESOURCEGROUP --location $LOCATION
+update deployment: az deployment group create
+```
+
+---
+
+### Managed vs unmanaged
+
+| Unmanaged | managed |
+| --------- | --------|
+| you have to create storage accounts to hold the disks (VHD files) for your Azure VMs.| you are no longer limited by the storage account limits. You can have one storage account per Azure region.|
+| LRS | GRS, LRS|
+
+### Disk caching
+
+A cache is a specialized component that stores data, typically in memory so that it can be accessed more quickly. The data in a cache is often data that has been read previously or data that resulted from an earlier calculation. The goal is to access data faster than getting it from the disk.
+
+#### Using pwsh
+
+|Command|Description|
+|---|----|
+|Get-AzVM|Gets the properties of a virtual machine.|
+|Update-AzVM|Updates the state of an Azure virtual machine.|
+|New-AzDiskConfig|Creates a configurable disk object.|
+|Add-AzVMDataDisk|Adds a data disk to a virtual machine.|
+
+### Create a machine with encrypted disks through a template
+
+Given a URL to a template, you can execute it with Azure PowerShell. For example, we could run the disk encryption template with the following PowerShell command:
+
+```ps1
+New-AzResourceGroupDeployment `
+    -Name encrypt-disk `
+    -ResourceGroupName <resource-group-name> `
+    -TemplateUri https://raw.githubusercontent.com/azure/azure-quickstart-templates/master/201-encrypt-running-windows-vm-without-aad/azuredeploy.json
+```
+
+Or, if you prefer the Azure CLI, with the group deployment create command.
+
+```cli
+azure config mode arm
+azure group deployment create <my-resource-group> <my-deployment-name> \ 
+    --template-uri https://raw.githubusercontent.com/azure/azure-quickstart-templates/master/201-encrypt-running-windows-vm-without-aad/azuredeploy.json
+```
+
+## Pluralsight
+
+### Managing Az subscriptions
+
+#### Resource tagging
+
+Assigned to subscription, individual resources, to RGs (related resources under one heading - handles resources as one unit). Resources do not inherit tags from RGs tags. Up to 50 tags.
+
+Tagging:
+
+- ARM template
+- Portal
+- Powershell
+- Policy (modify effect - if no tags specify, crete and assign it)
+- CLI
+
+- Get-... -->  get some information. (..).tags
+- Add
+
+#### Policies
+
+Policy effects
+
+| Effect | Description |
+| --- | --- |
+| Append | resource property additions including tags |
+| Audit | logging only; generates a warning |
+| AuditIfNotExists | auditing enabled if properties are absent | 
+| Demy | existing non-compliant resources are marked as non-compliant, but not deleted | 
+| DeployIfNotExists | if the resource does not already exist, deploy it; supports remediating tasks |
+
+|Modify | Add, modify, delete tags, supports remediation tasks |
+|---|---|
+| disabled | disable a signle policy assignment, or within the policy "if" statement; resources are not evaluated for compliance|
+|modify|add, modify, delete tags; supports remediation tasks|
+|enforceOPAContraint|rules are applied to a kubernetes cluster|
+
+![image](03.JPG)
+
+- Enabled: policy is enforced
+- Disabled: policy assignment is not enforced, compliance results will be available
+
+Management group: used to organize subscriptions with policies; subscriptions inherit the settings (policy)
+
+Policy initiative definitions: groups policies into a single unit; used when a single az governance goal consists of multiple checks
+
+CLI: list shows a bunch of information; show only gets the information on a specific group. If i want, from a "list" search, that the results only display a particular field:
+
+```cli
+az policy assignment list --query [].displayname
+```
+
+#### Cost center spending and tagging
+
+#### RBAC
+
+#### Resource providers
